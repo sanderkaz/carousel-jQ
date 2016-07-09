@@ -78,29 +78,38 @@ $(function(){
       marginLeft: -400
       }, 400, moveFirstSlide);
   }
-  setInterval(changeSlide, 3000);
+  var autoSliding=setInterval(changeSlide, 3000);
+
   function moveFirstSlide (){
     var firstItem = carouselList.find("li:first");
     var lastItem = carouselList.find("li:last");
     lastItem.after(firstItem),
     carouselList.css({marginLeft:0});
 }
-function backSlide() {
-  carouselList.animate({
-      marginLeft: 0
-      }, 400, moveLastSlide);
-}
+
 function moveLastSlide (){
     var firstItem = carouselList.find("li:first");
     var lastItem = carouselList.find("li:last");
-    firstItem.after(lastItem),
+    firstItem.before(lastItem),
     carouselList.css({marginLeft: -400});
 }
+function backSlide() {
+  moveLastSlide();
 
+  carouselList.animate({
+      marginLeft: 0
+      }, 400);
+}
 $('#prev').on('click', function(){
-  
   backSlide();
-  
+  clearInterval(autoSliding);
+  //
+  setTimeout(function() {
+
+    clearInterval(autoSliding);
+    autoSliding = setInterval(changeSlide, 3000);
+    
+  }, 3000);
 });
 
 $('#next').on('click', function(){
