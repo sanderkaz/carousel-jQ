@@ -73,16 +73,37 @@ $('#next').on('click', function(){
 });*/
 $(function(){
   var carouselList = $(".carousel ul");
-  setInterval(function changeSlide() {
+  function changeSlide() {
     carouselList.animate({
       marginLeft: -400
       }, 400, moveFirstSlide);
-  }, 3000);
+  }
+  setInterval(changeSlide, 3000);
   function moveFirstSlide (){
     var firstItem = carouselList.find("li:first");
     var lastItem = carouselList.find("li:last");
     lastItem.after(firstItem),
     carouselList.css({marginLeft:0});
 }
-});
+function backSlide() {
+  carouselList.animate({
+      marginLeft: 0
+      }, 400, moveLastSlide);
+}
+function moveLastSlide (){
+    var firstItem = carouselList.find("li:first");
+    var lastItem = carouselList.find("li:last");
+    firstItem.after(lastItem),
+    carouselList.css({marginLeft: -400});
+}
+
+$('#prev').on('click', function(){
   
+  backSlide();
+  
+});
+
+$('#next').on('click', function(){
+  changeSlide();
+});
+});
